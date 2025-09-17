@@ -11,7 +11,7 @@ jobs:
         run: |
           curl -X POST https://api.mailersend.com/v1/email \
           -H "Content-Type: application/json" \
-          -H "Authorization: Bearer mlsn.fb6d4f13feba2145f10d10d272bbd536a05850c19c1b6d5cb81b8e0eec9dabce}" \
+          -H "Authorization: Bearer mlsn.fb6d4f13feba2145f10d10d272bbd536a05850c19c1b6d5cb81b8e0eec9dabce" \
           -d '{
             "from": {
               "email": "github-bot@trial-3rdeggml4he6k8n0.mlsend.com",
@@ -29,6 +29,6 @@ jobs:
                 "name": "Alena Čechová"
               }
             ],
-            "subject": "Nové issue v ${{ github.repository }}",
-            "text": "🆕 Nové issue vytvořeno:\n\nRepo: ${{ github.repository }}\nČíslo: #${{ github.event.issue.number }}\nAutor: ${{ github.actor }}\nTitulek: ${{ github.event.issue.title }}\nURL: ${{ github.event.issue.html_url }}"
+            "subject": "Test email",
+            "text": "Test zpráva z MailerSend API"
           }'
