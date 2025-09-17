@@ -1,0 +1,27 @@
+name: Notify team on new issue
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.yourserver.com
+          server_port: 587
+          username: ${{ secrets.SMTP_USER }}
+          password: ${{ secrets.SMTP_PASS }}
+          subject: "New issue in ${{ github.repository }}"
+          to: "robert.sekot@gepro.cz,alena.cechova@gepro.cz" 
+          from: "github-bot@example.com"
+          body: |
+            🆕 Nové issue vytvořeno:
+
+            Repo: ${{ github.repository }}
+            Číslo: #${{ github.event.issue.number }}
+            Autor: ${{ github.actor }}
+            Titulek: ${{ github.event.issue.title }}
+            URL: ${{ github.event.issue.html_url }}
