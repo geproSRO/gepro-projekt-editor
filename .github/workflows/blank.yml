@@ -7,21 +7,26 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Send email
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.yourserver.com
-          server_port: 587
-          username: ${{ secrets.SMTP_USER }}
-          password: ${{ secrets.SMTP_PASS }}
-          subject: "New issue in ${{ github.repository }}"
-          to: "robert.sekot@gepro.cz,alena.cechova@gepro.cz" 
-          from: "github-bot@example.com"
-          body: |
-            🆕 Nové issue vytvořeno:
-
-            Repo: ${{ github.repository }}
-            Číslo: #${{ github.event.issue.number }}
-            Autor: ${{ github.actor }}
-            Titulek: ${{ github.event.issue.title }}
-            URL: ${{ github.event.issue.html_url }}
+      - name: Send email via MailerSend API
+        run: |
+          curl -X POST https://api.mailersend.com/v1/email \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer mlsn.fb6d4f13feba2145f10d10d272bbd536a05850c19c1b6d5cb81b8e0eec9dabce" \
+          -d '{
+            "from": {
+              "email": "github-bot@yourdomain.com",
+              "name": "GitHub Bot"
+            },
+            "to": [
+              {
+                "email": "robert.sekot@gepro.cz",
+                "name": "Robert Sekot"
+              },
+              {
+                "email": "alena.cechova@gepro.cz",
+                "name": "Alena Čechová"
+              }
+            ],
+            "subject": "Nové issue v ${{ github.repository }}",
+            "text": "🆕 Nové issue vytvořeno:\n\nRepo: ${{ github.repository }}\nČíslo: #${{ github.event.issue.number }}\nAutor: ${{ github.actor }}\nTitulek: ${{ github.event.issue.title }}\nURL: ${{ github.event.issue.html_url }}"
+          }'
