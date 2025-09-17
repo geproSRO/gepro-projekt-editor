@@ -11,17 +11,19 @@ jobs:
         run: |
           curl -X POST https://api.mailersend.com/v1/email \
           -H "Content-Type: application/json" \
-          -H "Authorization: Bearer mlsn.fb6d4f13feba2145f10d10d272bbd536a05850c19c1b6d5cb81b8e0eec9dabce" \
+          -H "Authorization: Bearer ${{ secrets.MAILERSEND_API_TOKEN }}" \
           -d '{
             "from": {
-              "email": "github-bot@yourdomain.com",
+              "email": "github-bot@trial-3rdeggml4he6k8n0.mlsend.com",
               "name": "GitHub Bot"
             },
             "to": [
               {
                 "email": "robert.sekot@gepro.cz",
                 "name": "Robert Sekot"
-              },
+              }
+            ],
+            "cc": [
               {
                 "email": "alena.cechova@gepro.cz",
                 "name": "Alena Čechová"
