@@ -7,28 +7,26 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Send email via MailerSend API
+      - name: Send email via SendGrid
         run: |
-          curl -X POST https://api.mailersend.com/v1/email \
+          curl -X POST https://api.eu.sendgrid.com/v3/mail/send \
+          -H "Authorization: Bearer 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" \
           -H "Content-Type: application/json" \
-          -H "Authorization: Bearer mlsn.fb6d4f13feba2145f10d10d272bbd536a05850c19c1b6d5cb81b8e0eec9dabce" \
           -d '{
-            "from": {
-              "email": "github-bot@trial-3rdeggml4he6k8n0.mlsend.com",
-              "name": "GitHub Bot"
-            },
-            "to": [
+            "personalizations": [
               {
-                "email": "robert.sekot@gepro.cz",
-                "name": "Robert Sekot"
+                "to": [
+                  {"email": "robert.sekot@gepro.cz", "name": "Robert Sekot"},
+                  {"email": "alena.cechova@gepro.cz", "name": "Alena Čechová"}
+                ]
               }
             ],
-            "cc": [
+            "from": {"email": "github-bot@gepro.cz", "name": "GitHub Bot"},
+            "subject": "Nové issue v ${{ github.repository }}",
+            "content": [
               {
-                "email": "alena.cechova@gepro.cz",
-                "name": "Alena Čechová"
+                "type": "text/plain",
+                "value": "🆕 Nové issue vytvořeno:\n\nRepo: ${{ github.repository }}\nČíslo: #${{ github.event.issue.number }}\nAutor: ${{ github.actor }}\nTitulek: ${{ github.event.issue.title }}\nURL: ${{ github.event.issue.html_url }}"
               }
-            ],
-            "subject": "Test email",
-            "text": "Test zpráva z MailerSend API"
+            ]
           }'
