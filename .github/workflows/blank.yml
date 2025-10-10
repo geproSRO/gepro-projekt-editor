@@ -10,7 +10,7 @@ jobs:
       - name: Send email via SendGrid
         run: |
          curl -X POST https://api.eu.sendgrid.com/v3/mail/send \
-          -H "Authorization: Bearer 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" \
+          -H "Authorization: Bearer nope" \
           -H "Content-Type: application/json" \
           -d '{
             "personalizations": [
